@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flask Calculator</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="calculator">
+    <form method="POST">
+      <input type="text" name="expression" id="expression" value="{{ request.form.get('expression', '') }}" placeholder="Enter expression">
+      <input type="text" id="result" value="{{ result }}" placeholder="Result" disabled>
+      <div class="buttons">
+        {% for row in [['7','8','9','/'],['4','5','6','*'],['1','2','3','-'],['0','.','=','+']] %}
+          <div>
+            {% for char in row %}
+              {% if char == '=' %}
+                <button type="submit">{{ char }}</button>
+              {% else %}
+                <button type="button" onclick="append('{{ char }}')">{{ char }}</button>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endfor %}
+        <button type="button" onclick="clearDisplay()">C</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    function append(char) {
+      const input = document.getElementById("expression");
+      input.value += char;
+    }
+
+    function clearDisplay() {
+      document.getElementById("expression").value = "";
+    }
+  </script>
+</body>
+</html>
